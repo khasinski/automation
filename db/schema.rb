@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319152436) do
+ActiveRecord::Schema.define(version: 20180324134209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 20180319152436) do
     t.datetime "authentication_token_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type"
+    t.integer "turn_on_time"
+    t.integer "turn_off_time"
+    t.integer "intensity"
+    t.integer "on_temperature"
+    t.integer "off_temperature"
+    t.integer "on_volume"
+    t.integer "off_volume"
+    t.string "group"
+    t.decimal "temperature_set"
     t.index ["authentication_token"], name: "index_devices_on_authentication_token", unique: true
     t.index ["name"], name: "index_devices_on_name", unique: true
     t.index ["reset_password_token"], name: "index_devices_on_reset_password_token", unique: true
