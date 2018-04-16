@@ -3,4 +3,6 @@ class Device < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable
+
+  attr_accessor :password
 end
