@@ -21,6 +21,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'devise'
 gem 'devise-token_authenticatable'
 gem 'bcrypt'
+gem 'friendly_id', '~> 5.1.0'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

@@ -9,8 +9,8 @@ class DeviceSessionsController < ApplicationController
       if device
         device.valid_password?(password)
         access_token = BCrypt::Password.create(password)
-        device.update_column(:access_token, access_token)
-        render json: {access_token: access_token}, status: 200
+        device.update_column(:authentication_token, access_token)
+        render json: {authentication_token: access_token}, status: 200
       else
         render json: "Invalid credentials", status: 401
       end
