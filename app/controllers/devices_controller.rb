@@ -44,7 +44,7 @@ class DevicesController < ApplicationController
   end
 
   def device_reports
-    params.require(:device).permit(:temperature, :volume)
+    params.require(:device).require(:reports).permit(:temperature, :volume)
   end
 
   def find_device
