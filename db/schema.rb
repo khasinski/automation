@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20180417195004) do
     t.decimal "temperature_set"
     t.string "status"
     t.boolean "on"
-    t.string "access_token"
     t.string "slug"
     t.decimal "temperature"
     t.decimal "volume"

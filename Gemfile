@@ -22,6 +22,11 @@ gem 'devise'
 gem 'devise-token_authenticatable'
 gem 'bcrypt'
 gem 'friendly_id', '~> 5.1.0'
+gem 'activemodel-serializers-xml'
+gem 'influxdb-rails'
+gem 'pry'
+gem 'pry-nav'
+gem 'pry-stack_explorer'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -51,9 +56,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'pry'
-  gem 'pry-nav'
-  gem 'pry-stack_explorer'
   gem 'shoulda-matchers', require: false
 end
 

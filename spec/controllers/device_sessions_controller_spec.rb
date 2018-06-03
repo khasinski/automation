@@ -10,10 +10,10 @@ RSpec.describe DeviceSessionsController, type: :controller do
     end
 
     it "returns http success on GET #new_session with credentials and provides a token" do
-      get :new_session, params: {:device => {:name => device.name, :password => device.password} }
+      get :new_session, params: {:device => {:name => device.name, :password => "password"} }
 
       expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body)).to have_key("access_token")
+      expect(JSON.parse(response.body)).to have_key("authentication_token")
     end
   end
 
