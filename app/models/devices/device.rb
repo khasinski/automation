@@ -6,5 +6,11 @@ class Device < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :token_authenticatable
 
-
+  def self.report_metric(metric_name, value)
+    tag_hash = {
+      device_name: self.name,
+      status: self.status
+    }
+    Metrics.new.write_data_point(metric_name, value, tag_hash)
+  end
 end
