@@ -6,11 +6,22 @@ class Device < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :token_authenticatable
 
-  def self.report_metric(metric_name, value)
-    tag_hash = {
-      device_name: self.name,
-      status: self.status
-    }
-    Metrics.new.write_data_point(metric_name, value, tag_hash)
+  def report_metrics(metrics_array)
+    data = map_metrics_array_to_data(metrics_array)
+    Metrics.new.write_data_points(data)
+  end
+
+  def data_point(data_name, value)
+    {
+      series: self.name,
+      values: Hash[data_name, value]
+    }.deep_symbolize_keys
+  end
+
+  def map_metrics_array_to_data(ar)
+    ar.map do |metric|
+      key, val = metric.first
+      data_point(key, val)
+    end
   end
 end
