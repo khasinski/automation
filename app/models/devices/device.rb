@@ -8,7 +8,7 @@ class Device < ApplicationRecord
 
   def report_metrics(metrics_array)
     data = map_metrics_array_to_data(metrics_array)
-    Metrics.new.write_data_points(data)
+    Reports.new.write_data_points(data)
   end
 
   def data_point(data_name, value)

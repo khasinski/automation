@@ -1,4 +1,4 @@
-class Metrics
+class Reports
   def write_data_points(data)
     client.write_points(data)
   rescue => e
