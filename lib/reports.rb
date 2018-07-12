@@ -6,6 +6,10 @@ class Reports
     Rails.logger.error e.backtrace
   end
 
+  def read_data_points(value_name, series_name)
+    client.query "select #{value_name} from #{series_name}", epoch: 's'
+  end
+
   private
 
   def client
