@@ -7,7 +7,6 @@ RSpec.describe ReportsController, type: :controller do
   context "when device is created" do
     let(:device) { create(:device) }
 
-
     it "not update Device measurements on CRREATE without an access token" do
       post :create, params: {:id => device.name, :device => {:authentication_token => nil} }
       expect(response).to have_http_status(401)
@@ -26,10 +25,13 @@ RSpec.describe ReportsController, type: :controller do
     end
 
     it "gets Device measurements on SHOW when user signed in" do
-      get :show, params: {:id => device.name, :device => {:authentication_token => device.authentication_token, :reports => {:test => 1} } }
+      user = create(:user)
+      login_with user
+      get :show, params: {:id => device.name, :device => {:authentication_token => device.authentication_token, :reports => {:name => "test"} } }
       expect(response).to have_http_status(200)
-      resp = JSON.parse(response.body)
-      expect(resp).to have_key("authentication_token")
+      resp = JSON.parse(response.body).first
+      expect(resp).to have_key("name")
+      expect(resp).to have_key("values")
     end
   end
 end

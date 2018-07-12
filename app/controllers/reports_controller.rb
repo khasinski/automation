@@ -29,7 +29,9 @@ class ReportsController < ApplicationController
   end
 
   def show
-    
+    device = find_device
+    data = device.get_metrics(get_params_report_name)
+    return render json: data, status: 200
   end
 
   private
@@ -37,8 +39,12 @@ class ReportsController < ApplicationController
   def authenticate_device
     self.access_token = params.dig(:device, :authentication_token)
     self.device = find_device
-    authorised = access_token && (access_token == device.authentication_token)
-    return render json: "Unauthorized", status: 401 unless authorised
+    authorized = access_token && (access_token == device.authentication_token)
+    return render json: "Unauthorized", status: 401 unless authorized
+  end
+
+  def get_params_report_name
+    params.dig(:device, :reports, :name)
   end
 
   def authenticate_user
