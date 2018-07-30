@@ -12,8 +12,8 @@ class Reports
     Rails.logger.error e.backtrace
   end
 
-  def read_data_points(value_name)
-    client.query "select #{value_name} from #{@name}", epoch: 's'
+  def read_data_points(value_name, time_ago = 24, unit = 'h')
+    client.query "select #{value_name} from #{@name} WHERE time < now() + #{time_ago}#{unit}", epoch: 's'
   end
 
   private

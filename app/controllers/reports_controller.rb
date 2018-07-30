@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  require 'uri'
   include BCrypt
   attr_accessor :device
   attr_accessor :access_token
@@ -37,7 +38,8 @@ class ReportsController < ApplicationController
   private
 
   def authenticate_device
-    self.access_token = params.dig(:device, :authentication_token)
+    escaped_token = params.dig(:device, :authentication_token)
+    self.access_token = URI.unescape(escaped_token)
     self.device = find_device
     authorized = access_token && (access_token == device.authentication_token)
     return render json: "Unauthorized", status: 401 unless authorized
@@ -60,6 +62,6 @@ class ReportsController < ApplicationController
   end
 
   def find_device
-    Device.friendly.find(params[:id])
+    Device.friendly.find(params.dig(:device, :name))
   end
 end

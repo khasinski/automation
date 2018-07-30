@@ -12,7 +12,7 @@ class Device < ApplicationRecord
     Reports.new(self.name).write_data_points(metrics_array)
   end
 
-  def get_metrics(metric_name)
-    Reports.new(self.name).read_data_points(metric_name)
+  def get_metrics(metric_name, time_ago = 24, unit = 'h')
+    Reports.new(self.name).read_data_points(metric_name).first.values[2].map {|d| [d["time"], d[metric_name]] }
   end
 end
