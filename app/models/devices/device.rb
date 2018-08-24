@@ -15,4 +15,8 @@ class Device < ApplicationRecord
   def get_metrics(metric_name, time_ago = 24, unit = 'h')
     Reports.new(self.name).read_data_points(metric_name).first.values[2].map {|d| [d["time"], d[metric_name]] }
   end
+
+  def permitted_settings
+    attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
+  end
 end

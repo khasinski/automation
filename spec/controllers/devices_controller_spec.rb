@@ -7,6 +7,7 @@ RSpec.describe DevicesController, type: :controller do
 
     it "finds device by name and id" do
       get :show, params: {id: device.name }
+      expect(response).to have_http_status(:ok)
     end
 
     it "gets light device settings" do
@@ -16,6 +17,11 @@ RSpec.describe DevicesController, type: :controller do
       assert_equal 4.hours.from_now.to_i, settings["turn_off_time"]
       assert_equal 50, settings["intensity"]
       assert_equal true, settings["on"]
+    end
+
+    it 'updates settings and send it to device' do
+      patch :update, params: {id: device.name , device: {turn_on_time: Time.now}}
+      expect(response).to have_http_status(:ok)
     end
   end
 
