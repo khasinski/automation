@@ -21,7 +21,8 @@ RSpec.describe DevicesController, type: :controller do
 
     it 'updates settings and send it to device' do
       patch :update, params: {id: device.name , device: {turn_on_time: Time.now}}
-      expect(response).to have_http_status(:ok)
+
+      expect(response).to redirect_to device_path(device.id)
     end
   end
 

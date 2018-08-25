@@ -1,0 +1,5 @@
+.device_form
+  = bootstrap_form_with model: @device do |form|
+    = form.text_field :name
+    = form.time_select :turn_on_time
+    = form.submit

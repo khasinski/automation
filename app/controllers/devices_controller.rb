@@ -21,7 +21,7 @@ class DevicesController < ApplicationController
   def update
     @device = find_device
     @device.update_attributes(device_params)
-    redirect_to device_path(device)
+    redirect_to device_path(@device.id)
   end
 
   def destroy
