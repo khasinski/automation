@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
     device.update_column(:authentication_token, access_token)
     reports_array = device_reports.to_h.collect {|k,v| {k => v} }
     device.report_metrics(reports_array)
-    render json: {authentication_token: access_token}, status: 200
+    render json: {authentication_token: access_token, settings: device.permitted_settings}, status: 200
   end
 
   def update

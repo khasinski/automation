@@ -26,6 +26,7 @@ RSpec.describe ReportsController, type: :controller do
       expect(response).to have_http_status(200)
       resp = JSON.parse(response.body)
       expect(resp).to have_key("authentication_token")
+      expect(resp).to have_key("settings")
     end
 
     it "redirects SHOW when user not signed in" do
