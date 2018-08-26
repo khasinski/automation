@@ -15,7 +15,7 @@ RSpec.describe ReportsController, type: :controller do
     it "updates Device measurements on CREATE with an access token" do
       count = test_metric_count
       post :create, params: {
-        :name => device.name, :device => {
+        :device => {
           :name => device.name, :authentication_token => device.authentication_token, :reports => {
             :test => 1
           }
@@ -29,7 +29,7 @@ RSpec.describe ReportsController, type: :controller do
     end
 
     it "redirects SHOW when user not signed in" do
-      get :show, params: {:name => device.name }
+      get :show, params: {:device => {:name => device.name } }
       expect(response).to redirect_to(new_user_session_path)
     end
 

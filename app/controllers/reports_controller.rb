@@ -1,8 +1,7 @@
 class ReportsController < ApplicationController
   require 'uri'
   include BCrypt
-  attr_accessor :device
-  attr_accessor :access_token
+  before_action :ensure_device, only: [:create, :show]
   before_action :authenticate_device, only: [:create]
   before_action :authenticate_user, only: [:show]
 
@@ -10,10 +9,10 @@ class ReportsController < ApplicationController
   end
 
   def create
-    access_token = BCrypt::Password.create(self.access_token)
-    self.device.update_column(:authentication_token, access_token)
+    access_token = BCrypt::Password.create(access_token)
+    device.update_column(:authentication_token, access_token)
     reports_array = device_reports.to_h.collect {|k,v| {k => v} }
-    self.device.report_metrics(reports_array)
+    device.report_metrics(reports_array)
     render json: {authentication_token: access_token}, status: 200
   end
 
@@ -30,7 +29,6 @@ class ReportsController < ApplicationController
   end
 
   def show
-    device = find_device
     data = device.get_metrics(get_params_report_name)
     return render json: data, status: 200
   end
@@ -39,8 +37,7 @@ class ReportsController < ApplicationController
 
   def authenticate_device
     escaped_token = params.dig(:device, :authentication_token)
-    self.access_token = URI.unescape(escaped_token)
-    self.device = find_device
+    access_token = URI.unescape(escaped_token)
     authorized = access_token && (access_token == device.authentication_token)
     return render json: "Unauthorized", status: 401 unless authorized
   end
@@ -61,7 +58,11 @@ class ReportsController < ApplicationController
     params.require(:device).require(:reports).permit(:temperature, :volume, :test)
   end
 
-  def find_device
-    Device.friendly.find(params.dig(:device, :name))
+  def device
+    @device ||= Device.friendly.find(params.dig(:device, :name))
+  end
+
+  def ensure_device
+    return render json "No such device", status: 404 unless device
   end
 end
