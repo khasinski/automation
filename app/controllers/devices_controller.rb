@@ -1,12 +1,8 @@
 class DevicesController < ApplicationController
+  before_action :ensure_device, only: [:show, :edit, :update, :destroy]
 
   def show
-    device = find_device
-    if device.present?
-      render json: {device: device}, status: 200
-    else
-      render json: {error: "Not found"}, status: 404
-    end
+
   end
 
   def new
@@ -19,8 +15,7 @@ class DevicesController < ApplicationController
   end
 
   def update
-    @device = find_device
-    @device.update_attributes(device_params)
+    device.update_attributes(device_params)
     redirect_to device_path(@device.id)
   end
 
@@ -28,7 +23,6 @@ class DevicesController < ApplicationController
   end
 
   def device_settings
-    device = find_device
     render json: {settings: device.permitted_settings}, status: 200
   end
 
@@ -38,8 +32,12 @@ class DevicesController < ApplicationController
     params.require(:device).permit(:authentication_token, :name, :turn_on_time, :turn_off_time, :intensity, :on_temperature, :off_temperature, :on_volume, :off_volume, :group, :temperature_set, :status, :on)
   end
 
-  def find_device
-    Device.friendly.find(params[:id])
+  def device
+    @device ||= Device.friendly.find(params[:id])
+  end
+
+  def ensure_device
+    redirect_to root_path unless device
   end
 
 end
