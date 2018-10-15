@@ -14,9 +14,10 @@ RSpec.describe DevicesController, type: :controller do
       Timecop.freeze(Time.now) do
         get :device_settings, params: {id: device.name }
         settings = JSON.parse(response.body)["settings"]
+        intensity_hash = {"red"=>"0", "green"=>"20", "blue"=>"0", "white"=>"30"}
         assert_equal 3.hours.ago.to_i, settings["turn_on_time"]
         assert_equal 4.hours.from_now.to_i, settings["turn_off_time"]
-        assert_equal 50, settings["intensity"]
+        assert_equal intensity_hash, settings["intensity"]
         assert_equal true, settings["on"]
       end
     end

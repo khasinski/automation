@@ -8,6 +8,8 @@ class Device < ApplicationRecord
 
   validates :type, inclusion: { in: %w(AquariumController Light) }
 
+  serialize :intensity, Hash
+
   def report_metrics(metrics_array)
     Reports.new(self.name).write_data_points(metrics_array)
   end

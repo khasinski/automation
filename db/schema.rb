@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417195004) do
+ActiveRecord::Schema.define(version: 20180826124604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20180417195004) do
     t.string "type"
     t.integer "turn_on_time"
     t.integer "turn_off_time"
-    t.integer "intensity"
+    t.string "intensity"
     t.integer "on_temperature"
     t.integer "off_temperature"
     t.integer "on_volume"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20180417195004) do
     t.string "status"
     t.boolean "on"
     t.string "slug"
-    t.decimal "temperature"
     t.decimal "volume"
     t.index ["authentication_token"], name: "index_devices_on_authentication_token", unique: true
     t.index ["name"], name: "index_devices_on_name", unique: true
