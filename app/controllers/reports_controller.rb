@@ -9,11 +9,9 @@ class ReportsController < ApplicationController
   end
 
   def create
-    access_token = BCrypt::Password.create(access_token)
-    device.update_column(:authentication_token, access_token)
     reports_array = device_reports.to_h.collect {|k,v| {k => v} }
     device.report_metrics(reports_array)
-    render json: {authentication_token: access_token, settings: device.permitted_settings.compact}, status: 200
+    render json: {settings: device.permitted_settings.compact}, status: 200
   end
 
   def update
@@ -36,8 +34,7 @@ class ReportsController < ApplicationController
   private
 
   def authenticate_device
-    escaped_token = params.dig(:device, :authentication_token)
-    access_token = URI.unescape(escaped_token)
+    access_token = request.env["HTTP_AUTHORIZATION"]
     authorized = access_token && (access_token == device.authentication_token)
     return render json: "Unauthorized", status: 401 unless authorized
   end

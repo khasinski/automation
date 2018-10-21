@@ -13,7 +13,7 @@ class Reports
   end
 
   def read_data_points(value_name, time_ago = 24, unit = 'h')
-    client.query "select #{value_name} from #{@name} WHERE time < now() + #{time_ago}#{unit}", epoch: 's'
+    client.query "select #{value_name} from #{@name} WHERE time > now() - #{time_ago}#{unit}", epoch: 's'
   end
 
   private
