@@ -53,6 +53,17 @@ RSpec.describe Device, type: :model do
       end
     end
 
+    it 'returns intensity depending on current time' do
+      device = Device.new(type: "AquariumController")
+      intensity = {:red=>"0", :green=>"20", :blue=>"0", :white=>"30"}
+      Timecop.freeze(10.minutes.from_now)
+      device.add_intensity(30.minutes.from_now, intensity)
+      expect(device.permitted_settings[:intensity]).to eq({:red=>"0", :green=>"0", :blue=>"0", :white=>"0"})
+
+      Timecop.freeze(40.minutes.from_now)
+      expect(device.permitted_settings[:intensity]).to eq({:red=>"0", :green=>"0", :blue=>"0", :white=>"0"})
+    end
+
   end
 
 end
