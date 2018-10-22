@@ -13,19 +13,18 @@ RSpec.describe ReportsController, type: :controller do
     end
 
     it "updates Device measurements on CREATE with an access token" do
-      count = test_metric_count
+      headers = { 'HTTP_AUTHORIZATION' => device.authentication_token }
+      request.headers.merge! headers
       post :create, params: {
         :device => {
-          :name => device.name, :authentication_token => device.authentication_token, :reports => {
+          :name => device.name, :reports => {
             :test => 1
           }
         }
       }
-      expect(count).to eq(test_metric_count - 1)
 
       expect(response).to have_http_status(200)
       resp = JSON.parse(response.body)
-      expect(resp).to have_key("authentication_token")
       expect(resp).to have_key("settings")
     end
 
