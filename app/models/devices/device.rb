@@ -20,10 +20,11 @@ class Device < ApplicationRecord
   end
 
   def show_actual_intensity
-    latest_intensity = {:red=>"0", :green=>"0", :blue=>"0", :white=>"0"}
+    latest_intensity = self.intensity.values.last
     current_time = Time.now
+
     self.intensity.each do |minutes, values|
-      if minutes.to_i > (current_time.hour*60 + current_time.min)
+      if minutes.to_i <= (current_time.hour*60 + current_time.min)
         latest_intensity = values
       else
         break
