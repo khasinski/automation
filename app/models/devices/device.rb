@@ -9,6 +9,7 @@ class Device < ApplicationRecord
   validates :type, inclusion: { in: %w(AquariumController Light) }
 
   serialize :intensity, Hash
+  serialize :intensity_override, Hash
 
   def report_metrics(metrics_array)
     Reports.new(self.name).write_data_points(metrics_array)
@@ -20,6 +21,7 @@ class Device < ApplicationRecord
   end
 
   def show_actual_intensity
+    return intensity_override unless intensity_override.empty?
     latest_intensity = self.intensity.values.last
     current_time = Time.now
 

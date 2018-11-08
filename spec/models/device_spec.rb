@@ -70,6 +70,17 @@ RSpec.describe Device, type: :model do
       expect(device.permitted_settings[:intensity]).to eq(secondary_intensity)
     end
 
+    it 'returns intensity override instead of intensity when not empty' do
+      device = Device.new(type: "AquariumController")
+      intensity = {:red=>"0", :green=>"0", :blue=>"0", :white=>"0"}
+      intensity_override = {:red=>"0", :green=>"20", :blue=>"0", :white=>"30"}
+
+      device.add_intensity(Time.now, intensity)
+      device.update_attribute(:intensity_override, intensity_override)
+
+      expect(device.permitted_settings[:intensity]).to eq(intensity_override)
+    end
+
   end
 
 end
