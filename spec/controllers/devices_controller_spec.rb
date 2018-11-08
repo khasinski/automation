@@ -5,16 +5,11 @@ RSpec.describe DevicesController, type: :controller do
   context "when device is created" do
     let(:device) { create(:device) }
 
-    #it "finds device by name and id" do
-    #  get :show, params: {id: device.name }
-    #  expect(response).to have_http_status(:ok)
-    #end
-
     it "gets light device settings" do
       Timecop.freeze(Time.now) do
         get :device_settings, params: {id: device.name }
         settings = JSON.parse(response.body)["settings"]
-        intensity_hash = {"red"=>"0", "green"=>"20", "blue"=>"0", "white"=>"30"}
+        intensity_hash = {"red"=>"10", "green"=>"40", "blue"=>"0", "white"=>"10"}
         assert_equal 3.hours.ago.to_i, settings["turn_on_time"]
         assert_equal 4.hours.from_now.to_i, settings["turn_off_time"]
         assert_equal intensity_hash, settings["intensity"]
