@@ -41,8 +41,15 @@ class Device < ApplicationRecord
     self.update_attribute(:intensity, intensity.sort.to_h)
   end
 
+  def valve_on?
+    return nil unless self.valve_on_time && self.valve_off_time
+    minutes = Time.now.min + Time.now.hour*60
+    self.valve_on_time <= minutes && self.valve_off_time >= minutes
+  end
+
   def permitted_settings
     settings = attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
-    settings.merge(intensity: show_actual_intensity)
+    settings.merge!(intensity: show_actual_intensity)
+    settings.merge!(valve_on: valve_on?)
   end
 end
