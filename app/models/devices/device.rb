@@ -24,6 +24,7 @@ class Device < ApplicationRecord
     return intensity_override unless intensity_override.empty?
     latest_intensity = self.intensity.values.last
     current_time = Time.now
+    scale_factor = self.light_intensity_lvl || 1
 
     self.intensity.each do |minutes, values|
       if minutes.to_i <= (current_time.hour*60 + current_time.min)
@@ -32,7 +33,7 @@ class Device < ApplicationRecord
         break
       end
     end
-    return latest_intensity
+    latest_intensity.each {|k,v| latest_intensity[k] = (scale_factor*v).ceil.to_i}
   end
 
   def add_intensity(time, intensity)
@@ -45,6 +46,10 @@ class Device < ApplicationRecord
     return nil unless self.valve_on_time && self.valve_off_time
     minutes = Time.now.min + Time.now.hour*60
     self.valve_on_time <= minutes && self.valve_off_time >= minutes
+  end
+
+  def send_update_request(param, json_data)
+    %x(curl -X POST -H 'content-type: application/json' -d '#{json_data}' #{current_sign_in_ip}/update_#{param}) if self.current_sign_in_ip
   end
 
   def permitted_settings
