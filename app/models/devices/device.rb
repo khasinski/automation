@@ -43,7 +43,7 @@ class Device < ApplicationRecord
   end
 
   def valve_on?
-    return nil unless self.valve_on_time && self.valve_off_time
+    return false unless self.valve_on_time && self.valve_off_time
     minutes = Time.now.min + Time.now.hour*60
     self.valve_on_time <= minutes && self.valve_off_time >= minutes
   end
