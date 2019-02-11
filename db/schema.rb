@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190103135718) do
+ActiveRecord::Schema.define(version: 20190211223654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20190103135718) do
     t.integer "valve_on_time"
     t.integer "valve_off_time"
     t.float "light_intensity_lvl"
+    t.boolean "valve_on", default: false
     t.index ["authentication_token"], name: "index_devices_on_authentication_token", unique: true
     t.index ["name"], name: "index_devices_on_name", unique: true
     t.index ["reset_password_token"], name: "index_devices_on_reset_password_token", unique: true

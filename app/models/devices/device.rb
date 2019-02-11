@@ -6,7 +6,7 @@ class Device < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :token_authenticatable
 
-  validates :type, inclusion: { in: %w(AquariumController Light) }
+  validates :type, inclusion: { in: %w(AquariumController Light ValveController) }
 
   serialize :intensity, Hash
   serialize :intensity_override, Hash
@@ -43,7 +43,6 @@ class Device < ApplicationRecord
   end
 
   def valve_on?
-    return false unless self.valve_on_time && self.valve_off_time
     minutes = Time.now.min + Time.now.hour*60
     self.valve_on_time <= minutes && self.valve_off_time >= minutes
   end
@@ -54,7 +53,8 @@ class Device < ApplicationRecord
 
   def permitted_settings
     settings = attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
-    settings.merge!(intensity: show_actual_intensity)
-    settings.merge!(valve_on: valve_on?)
+    settings.merge!(intensity: show_actual_intensity) unless self.intensity.blank?
+    settings.merge!(valve_on: valve_on?) if self.valve_on_time && self.valve_off_time
+    settings
   end
 end

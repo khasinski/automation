@@ -9,8 +9,9 @@ class ReportsController < ApplicationController
   end
 
   def create
-    reports_array = device_reports.to_h.collect {|k,v| {k => v} }
-    device.report_metrics(reports_array)
+    filtered_reports = device_reports.except("checkin")
+    reports_array = filtered_reports.to_h.collect {|k,v| {k => v} }
+    device.report_metrics(reports_array) unless reports_array.empty?
     render json: {settings: device.permitted_settings.compact}, status: 200
   end
 
@@ -52,7 +53,7 @@ class ReportsController < ApplicationController
   end
 
   def device_reports
-    params.require(:device).require(:reports).permit(:temperature, :volume, :test, :distance)
+    params.require(:device).require(:reports).permit(:checkin, :temperature, :volume, :test, :distance)
   end
 
   def device

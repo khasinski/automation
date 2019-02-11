@@ -27,6 +27,12 @@ RSpec.describe Device, type: :model do
       expect(device).to be_valid
     end
 
+    it 'passes validation with "ValveController" type' do
+      device = Device.new
+      device.type = "ValveController"
+      expect(device).to be_valid
+    end
+
     it 'returns list of permitted settings without hidden fields for aquarium controller' do
       device = Device.new(type: "AquariumController")
       settings = device.permitted_settings
