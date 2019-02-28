@@ -61,8 +61,8 @@ RSpec.describe Device, type: :model do
 
     it 'returns intensity depending on current time' do
       device = Device.new(type: "AquariumController")
-      initial_intensity = {:red=>"0", :green=>"0", :blue=>"0", :white=>"0"}
-      secondary_intensity = {:red=>"0", :green=>"20", :blue=>"0", :white=>"30"}
+      initial_intensity = {:red=>0, :green=>0, :blue=>0, :white=>0}
+      secondary_intensity = {:red=>0, :green=>20, :blue=>0, :white=>30}
 
       current_time = Time.parse("2018-10-23 23:51:38 +0200")
       Timecop.freeze(current_time)
@@ -78,8 +78,8 @@ RSpec.describe Device, type: :model do
 
     it 'returns intensity override instead of intensity when not empty' do
       device = Device.new(type: "AquariumController")
-      intensity = {:red=>"0", :green=>"0", :blue=>"0", :white=>"0"}
-      intensity_override = {:red=>"0", :green=>"20", :blue=>"0", :white=>"30"}
+      intensity = {:red=>0, :green=>0, :blue=>0, :white=>0}
+      intensity_override = {:red=>0, :green=>20, :blue=>0, :white=>30}
 
       device.add_intensity(Time.now, intensity)
       device.update_attribute(:intensity_override, intensity_override)
