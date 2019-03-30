@@ -16,5 +16,6 @@ module Automation
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/app/models/devices)
     config.autoload_paths += %W(#{config.root}/lib)
+    require "#{Rails.root}/lib/jsonwebtoken"
   end
 end

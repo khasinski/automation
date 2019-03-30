@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
   require 'uri'
   include BCrypt
+  skip_before_action :authenticate_user_from_token!
   before_action :ensure_device, only: [:create, :show]
   before_action :authenticate_device, only: [:create]
   before_action :authenticate_user, only: [:show]

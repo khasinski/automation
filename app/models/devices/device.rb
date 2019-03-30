@@ -16,8 +16,8 @@ class Device < ApplicationRecord
   end
 
   def get_metrics(metric_name, time_ago = 24, unit = 'h')
-    binding.pry
-    reports = Reports.new(self.name).read_data_points(metric_name, time_ago, unit).first.values[2]
+    data_points = Reports.new(self.name).read_data_points(metric_name, time_ago, unit).first
+    reports = data_points.values[2] if data_points || []
     reports.map {|d| [ Time.at(d["time"]).to_s(:time), d[metric_name]] }
   end
 

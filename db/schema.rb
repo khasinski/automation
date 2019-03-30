@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190211223654) do
+ActiveRecord::Schema.define(version: 20190317174932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,15 +43,19 @@ ActiveRecord::Schema.define(version: 20190211223654) do
     t.string "status"
     t.boolean "on"
     t.string "slug"
-    t.decimal "volume"
+    t.decimal "distance"
     t.string "intensity_override"
     t.integer "valve_on_time"
     t.integer "valve_off_time"
     t.float "light_intensity_lvl"
     t.boolean "valve_on", default: false
+    t.bigint "valve_controller_id"
+    t.bigint "aquarium_controller_id"
+    t.index ["aquarium_controller_id"], name: "index_devices_on_aquarium_controller_id"
     t.index ["authentication_token"], name: "index_devices_on_authentication_token", unique: true
     t.index ["name"], name: "index_devices_on_name", unique: true
     t.index ["reset_password_token"], name: "index_devices_on_reset_password_token", unique: true
+    t.index ["valve_controller_id"], name: "index_devices_on_valve_controller_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -64,6 +68,11 @@ ActiveRecord::Schema.define(version: 20190211223654) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "jwt_blacklist", id: :serial, force: :cascade do |t|
+    t.string "jti", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,6 +88,9 @@ ActiveRecord::Schema.define(version: 20190211223654) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "authentication_token"
+    t.datetime "authentication_token_created_at"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

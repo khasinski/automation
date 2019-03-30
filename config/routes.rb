@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
   devise_for :devices
-  devise_for :users
+  devise_for :users,
+             :controllers => { :sessions => 'api/sessions', registrations: 'api/registrations'}
   get :new_session, to: 'device_sessions#new_session'
   resources :devices
 

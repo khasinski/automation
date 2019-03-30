@@ -30,6 +30,7 @@ gem 'pry-stack_explorer'
 gem "chartkick"
 gem "time_splitter"
 gem "comfy_bootstrap_form", "~> 4.0.0"
+gem "jwt", "~> 1.5.1"
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
