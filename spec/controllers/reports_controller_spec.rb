@@ -5,7 +5,8 @@ require 'helpers/reports_helpers'
 RSpec.describe ReportsController, type: :controller do
 
   context "when device is created" do
-    let(:device) { create(:device) }
+    let(:user) { create(:user) }
+    let(:device) { create(:device, user: user) }
 
     it "not update Device measurements on CRREATE without an access token" do
       post :create, params: {:device => {:name => device.name, :authentication_token => nil} }
@@ -34,7 +35,6 @@ RSpec.describe ReportsController, type: :controller do
     end
 
     it "gets Device measurements on SHOW when user signed in" do
-      user = create(:user)
       login_with user
       get :show, params: {:device => {:name => device.name, :authentication_token => device.authentication_token, :reports => {:name => "test"} } }
       expect(response).to have_http_status(200)

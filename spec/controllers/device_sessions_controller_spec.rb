@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe DeviceSessionsController, type: :controller do
   context "when device is created" do
-    let(:device) { create(:device) }
+    let(:user) { create(:user ) }
+    let(:device) { create(:device, user: user ) }
 
     it "returns http UNAUTHORISED on GET #new_session without credentials" do
       get :new_session

@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190317174932) do
+ActiveRecord::Schema.define(version: 20190330173402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "charts", force: :cascade do |t|
+    t.string "name"
+    t.string "metric"
+    t.integer "default_duration"
+    t.string "default_duration_unit"
+    t.bigint "user_id"
+    t.bigint "device_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_charts_on_device_id"
+    t.index ["name"], name: "index_charts_on_name", unique: true
+    t.index ["user_id"], name: "index_charts_on_user_id"
+  end
 
   create_table "devices", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -51,10 +65,12 @@ ActiveRecord::Schema.define(version: 20190317174932) do
     t.boolean "valve_on", default: false
     t.bigint "valve_controller_id"
     t.bigint "aquarium_controller_id"
+    t.bigint "user_id"
     t.index ["aquarium_controller_id"], name: "index_devices_on_aquarium_controller_id"
     t.index ["authentication_token"], name: "index_devices_on_authentication_token", unique: true
     t.index ["name"], name: "index_devices_on_name", unique: true
     t.index ["reset_password_token"], name: "index_devices_on_reset_password_token", unique: true
+    t.index ["user_id"], name: "index_devices_on_user_id"
     t.index ["valve_controller_id"], name: "index_devices_on_valve_controller_id"
   end
 
@@ -95,4 +111,7 @@ ActiveRecord::Schema.define(version: 20190317174932) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "charts", "devices"
+  add_foreign_key "charts", "users"
+  add_foreign_key "devices", "users"
 end

@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe DevicesController, type: :controller do
 
   context "when device is created" do
-    let(:device) { create(:device) }
+    let(:user) { create(:user ) }
+    let(:device) { create(:device, user: user ) }
 
     it "gets light device settings" do
       Timecop.freeze(Time.now) do

@@ -10,6 +10,8 @@ class Device < ApplicationRecord
 
   serialize :intensity, Hash
   serialize :intensity_override, Hash
+  belongs_to :user
+  has_many :charts
 
   def report_metrics(metrics_array)
     Reports.new(self.name).write_data_points(metrics_array)
