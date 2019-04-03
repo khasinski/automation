@@ -11,7 +11,7 @@ class AquariumController < Device
   def react_to_reported_data(reports_array)
     reports_array.each do |report|
       key, value = report.first
-      if key == "distance" && self.distance && self.distance < value
+      if key == "distance" && self.distance && self.distance < value.to_i
         self.valve_controller.update_attribute(:on, true)
       else
         self.valve_controller.update_attribute(:on, false)
