@@ -1,5 +1,4 @@
 class ValveController < Device
-  belongs_to :aquarium_controller
 
   def hidden_fields
     [:id, :name, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at,

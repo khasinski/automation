@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190330173402) do
+ActiveRecord::Schema.define(version: 20190408221848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,19 +59,16 @@ ActiveRecord::Schema.define(version: 20190330173402) do
     t.string "slug"
     t.decimal "distance"
     t.string "intensity_override"
-    t.integer "valve_on_time"
-    t.integer "valve_off_time"
+    t.integer "co2valve_on_time"
+    t.integer "co2valve_off_time"
     t.float "light_intensity_lvl"
-    t.boolean "valve_on", default: false
-    t.bigint "valve_controller_id"
-    t.bigint "aquarium_controller_id"
+    t.boolean "water_input_valve_on", default: false
     t.bigint "user_id"
-    t.index ["aquarium_controller_id"], name: "index_devices_on_aquarium_controller_id"
+    t.string "connected_devices"
     t.index ["authentication_token"], name: "index_devices_on_authentication_token", unique: true
     t.index ["name"], name: "index_devices_on_name", unique: true
     t.index ["reset_password_token"], name: "index_devices_on_reset_password_token", unique: true
     t.index ["user_id"], name: "index_devices_on_user_id"
-    t.index ["valve_controller_id"], name: "index_devices_on_valve_controller_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|

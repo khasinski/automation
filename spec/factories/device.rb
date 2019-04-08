@@ -20,6 +20,7 @@ FactoryBot.define do
     on { true }
     distance { 200 }
     type { "AquariumController" }
+    connected_devices { {"water_input_valve"=> "192.168.2.108" } }
   end
 
   factory :valve_controller do

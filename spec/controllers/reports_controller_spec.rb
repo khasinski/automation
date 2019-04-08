@@ -8,7 +8,6 @@ RSpec.describe ReportsController, type: :controller do
     let(:user) { create(:user) }
     let(:device) { create(:device, user: user) }
     let(:aquarium_controller) { create(:aquarium_controller, user: user) }
-    let(:valve_controller) { create(:valve_controller, user: user, aquarium_controller: aquarium_controller) }
 
     it "not update Device measurements on CRREATE without an access token" do
       post :create, params: {:device => {:name => device.name, :authentication_token => nil} }
@@ -44,8 +43,7 @@ RSpec.describe ReportsController, type: :controller do
       expect(resp).to be_instance_of(Array)
     end
 
-    it "sets valve on when reporting aquarium controller measurements on CREATE with an access token and when distance goes down sets it off" do
-      expect(valve_controller.on).to be_falsey
+    it "sets water input valve on when reporting aquarium controller measurements on CREATE with an access token and when distance goes down sets it off" do
       headers = { 'HTTP_AUTHORIZATION' => aquarium_controller.authentication_token }
       request.headers.merge! headers
 
@@ -58,7 +56,7 @@ RSpec.describe ReportsController, type: :controller do
       }
 
       expect(response).to have_http_status(200)
-      expect(valve_controller.reload.on).to be_truthy
+      expect(aquarium_controller.reload.water_input_valve_on).to be_truthy
 
       post :create, params: {
         :device => {
@@ -68,7 +66,23 @@ RSpec.describe ReportsController, type: :controller do
         }
       }
       expect(response).to have_http_status(200)
-      expect(valve_controller.reload.on).to be_falsey
+      expect(aquarium_controller.reload.water_input_valve_on).to be_falsey
+    end
+
+    it "returns connected device with settings after report" do
+      headers = { 'HTTP_AUTHORIZATION' => aquarium_controller.authentication_token }
+      request.headers.merge! headers
+
+      post :create, params: {
+        :device => {
+          :name => aquarium_controller.name, :reports => {
+            :dummy_report => 666
+          }
+        }
+      }
+
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)["settings"]["connected_devices"]["water_input_valve"]).to eq "192.168.2.108"
 
     end
 

@@ -94,17 +94,17 @@ RSpec.describe Device, type: :model do
 
       it 'returns valve on status correctly' do
         device = Device.new(type: "AquariumController", user_id: user.id)
-        device.valve_on_time = 360
-        device.valve_off_time = 720
+        device.co2valve_on_time = 360
+        device.co2valve_off_time = 720
 
         Timecop.freeze(Time.parse("2018-10-23 4:51:38 +0200"))
-        expect(device.valve_on?).to be_falsey
+        expect(device.co2valve_on?).to be_falsey
 
         Timecop.freeze(Time.parse("2018-10-23 10:51:38 +0200"))
-        expect(device.valve_on?).to be_truthy
+        expect(device.co2valve_on?).to be_truthy
 
         Timecop.freeze(Time.parse("2018-10-23 14:51:38 +0200"))
-        expect(device.valve_on?).to be_falsey
+        expect(device.co2valve_on?).to be_falsey
       end
     end
 

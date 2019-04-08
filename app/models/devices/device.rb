@@ -10,6 +10,7 @@ class Device < ApplicationRecord
 
   serialize :intensity, Hash
   serialize :intensity_override, Hash
+  serialize :connected_devices, Hash
   belongs_to :user
   has_many :charts
 
@@ -45,9 +46,9 @@ class Device < ApplicationRecord
     self.update_attribute(:intensity, intensity.sort.to_h)
   end
 
-  def valve_on?
+  def co2valve_on?
     minutes = Time.now.min + Time.now.hour*60
-    self.valve_on_time <= minutes && self.valve_off_time >= minutes
+    self.co2valve_on_time <= minutes && self.co2valve_off_time >= minutes
   end
 
   def send_update_request(param, json_data)
@@ -57,7 +58,7 @@ class Device < ApplicationRecord
   def permitted_settings
     settings = attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
     settings.merge!(intensity: show_actual_intensity) unless self.intensity.blank?
-    settings.merge!(valve_on: valve_on?) if self.valve_on_time && self.valve_off_time
+    settings.merge!(co2valve_on: co2valve_on?) if self.co2valve_on_time && self.co2valve_off_time
     settings
   end
 end
