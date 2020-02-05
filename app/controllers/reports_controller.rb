@@ -13,7 +13,8 @@ class ReportsController < ApplicationController
     filtered_reports = device_reports.except("checkin")
     reports_array = filtered_reports.to_h.collect {|k,v| {k => v} }
     device.report_metrics(reports_array) unless reports_array.empty?
-    device.react_to_reported_data(reports_array) if device.respond_to?(:react_to_reported_data)
+    # my_logger = Logger.new("#{Rails.root}/log/my.log")
+    # my_logger.info("Settings: #{device.permitted_settings.compact.to_s}")
     render json: {settings: device.permitted_settings.compact}, status: 200
   end
 

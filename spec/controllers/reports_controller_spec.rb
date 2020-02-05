@@ -43,32 +43,6 @@ RSpec.describe ReportsController, type: :controller do
       expect(resp).to be_instance_of(Array)
     end
 
-    it "sets water input valve on when reporting aquarium controller measurements on CREATE with an access token and when distance goes down sets it off" do
-      headers = { 'HTTP_AUTHORIZATION' => aquarium_controller.authentication_token }
-      request.headers.merge! headers
-
-      post :create, params: {
-        :device => {
-          :name => aquarium_controller.name, :reports => {
-            :distance => 201
-          }
-        }
-      }
-
-      expect(response).to have_http_status(200)
-      expect(aquarium_controller.reload.water_input_valve_on).to be_truthy
-
-      post :create, params: {
-        :device => {
-          :name => aquarium_controller.name, :reports => {
-            :distance => 199
-          }
-        }
-      }
-      expect(response).to have_http_status(200)
-      expect(aquarium_controller.reload.water_input_valve_on).to be_falsey
-    end
-
     it "returns connected device with settings after report" do
       headers = { 'HTTP_AUTHORIZATION' => aquarium_controller.authentication_token }
       request.headers.merge! headers
