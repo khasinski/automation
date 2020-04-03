@@ -57,7 +57,7 @@ class Device < ApplicationRecord
 
   def permitted_settings
     settings = attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
-    settings.merge!(intensity: show_actual_intensity) unless self.intensity.blank?
+    settings.merge!(intensity: show_actual_intensity) unless self.intensity_override.blank? && self.intensity.blank?
     settings.merge!(co2valve_on: co2valve_on?) if self.co2valve_on_time && self.co2valve_off_time
     settings
   end

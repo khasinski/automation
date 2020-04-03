@@ -1,9 +1,5 @@
 InfluxDB::Rails.configure do |config|
-  config.influxdb_database = "automation"
-  config.influxdb_username = "root"
-  config.influxdb_password = "root"
-  config.influxdb_hosts    = ["localhost"]
-  config.influxdb_port     = 8086
+  config.client.database = "automation"
 
   # config.retry = false
   # config.async = false

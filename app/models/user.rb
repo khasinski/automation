@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   has_many :devices
   has_many :charts
+
+  validates :name, presence: true
 end
