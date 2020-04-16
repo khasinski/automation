@@ -29,9 +29,9 @@ gem 'pry-nav'
 gem 'pry-stack_explorer'
 gem "chartkick"
 gem "time_splitter"
-gem "comfy_bootstrap_form", "~> 4.0.0"
 gem "jwt", "~> 1.5.1"
 gem 'whenever', require: false
+gem 'figaro'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -40,6 +40,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 gem "haml-rails"
+gem 'therubyracer'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -76,4 +77,11 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm'
+  gem 'capistrano-npm'
+  gem 'capistrano-nvm', require: false
 end
