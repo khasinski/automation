@@ -5,6 +5,7 @@ RSpec.describe 'POST /users', type: :request do
   let(:params) do
     {
       user: {
+        name: 'cooluser',
         email: 'user@example.com',
         password: 'password'
       }
@@ -13,6 +14,7 @@ RSpec.describe 'POST /users', type: :request do
   let(:invalid_params) do
     {
       user: {
+        name: 'cooluser',
         email: 'user@gmail.com',
         password: 'password'
       }
