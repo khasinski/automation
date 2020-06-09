@@ -32,6 +32,8 @@ gem "time_splitter"
 gem "jwt", "~> 1.5.1"
 gem 'whenever', require: false
 gem 'figaro'
+gem 'wisper'
+gem 'graphql'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -85,3 +87,5 @@ group :development do
   gem 'capistrano-npm'
   gem 'capistrano-nvm', require: false
 end
+
+gem 'graphiql-rails', group: :development
