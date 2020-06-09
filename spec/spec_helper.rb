@@ -17,9 +17,11 @@ require_relative 'support/controller_helpers'
 require_relative 'support/database_cleaner'
 require 'devise'
 require 'capybara/rspec'
+require 'wisper/rspec/matchers'
 
 RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
+  config.include(Wisper::RSpec::BroadcastMatcher)
   Warden.test_mode!
 
   config.after do
