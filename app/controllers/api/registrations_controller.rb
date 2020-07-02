@@ -3,7 +3,6 @@ class Api::RegistrationsController < ApplicationController
   def create
     create_user = CreateUser.new
     create_user.subscribe(::UserNotifier.new)
-    create_user.subscribe(::SecondUserNotifier.new)
     create_user.on(:create_user_success) do |user|
       response.set_header('Authorization-Token', user.authentication_token)
       render :json => user.as_json, :status=>201
