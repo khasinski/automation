@@ -19,6 +19,10 @@ executors:
         environment:
           POSTGRES_DB: automation_test
           POSTGRES_USER: pi
+      - image: influxdb:1.8.0
+        environment:
+          INFLUXDB_DB: automation
+
 
 commands:
   configure_bundler:
