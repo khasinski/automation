@@ -17,5 +17,6 @@ module Automation
     config.autoload_paths += %W(#{config.root}/app/models/devices)
     config.autoload_paths += %W(#{config.root}/lib)
     require "#{Rails.root}/lib/jsonwebtoken"
+    Dir["#{Rails.root}/lib/notifiers/*.rb"].each { |file| require file }
   end
 end
