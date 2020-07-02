@@ -69,7 +69,7 @@ RSpec.describe Device, type: :model do
         initial_intensity = {:red=>0, :green=>0, :blue=>0, :white=>0}
         secondary_intensity = {:red=>0, :green=>20, :blue=>0, :white=>30}
 
-        current_time = Time.parse("2018-10-23 23:51:38 +0200")
+        current_time = Time.now
         Timecop.freeze(current_time)
 
         device.add_intensity(current_time, initial_intensity)
