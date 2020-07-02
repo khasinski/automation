@@ -4,8 +4,8 @@ class DeviseCreateDevices < ActiveRecord::Migration[5.1]
   def change
     create_table :devices do |t|
       ## Database authenticatable
-      t.string :name,              null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      t.string :name, null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
       t.string   :reset_password_token
@@ -31,15 +31,14 @@ class DeviseCreateDevices < ActiveRecord::Migration[5.1]
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
-      
+
       t.text :authentication_token
       t.datetime :authentication_token_created_at
-
 
       t.timestamps null: false
     end
     add_index :devices, :authentication_token, unique: true
-    add_index :devices, :name,                unique: true
+    add_index :devices, :name, unique: true
     add_index :devices, :reset_password_token, unique: true
     # add_index :devices, :confirmation_token,   unique: true
     # add_index :devices, :unlock_token,         unique: true

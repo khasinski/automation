@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiTokenStrategy < Warden::Strategies::Base
   def valid?
     api_token.present?

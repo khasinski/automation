@@ -1,12 +1,11 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
-  end
-  post "/graphql", to: "graphql#execute"
+Rails.application.routes.draw do
+  mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
+  post '/graphql', to: 'graphql#execute'
   devise_for :devices
   devise_for :users,
-             :controllers => { :sessions => 'api/sessions', registrations: 'api/registrations'}
+             controllers: { sessions: 'api/sessions', registrations: 'api/registrations' }
   get :new_session, to: 'device_sessions#new_session'
   resources :devices
 

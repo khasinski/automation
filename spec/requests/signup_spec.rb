@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'POST /users', type: :request do
@@ -30,7 +32,7 @@ RSpec.describe 'POST /users', type: :request do
 
     it 'returns a new user' do
       body = JSON.parse(response.body)
-      expect(body).to have_key("created_at")
+      expect(body).to have_key('created_at')
     end
   end
 
@@ -46,7 +48,7 @@ RSpec.describe 'POST /users', type: :request do
 
     it 'returns validation errors' do
       body = JSON.parse(response.body)
-      expect(body['email'].first).to eq("has already been taken")
+      expect(body['email'].first).to eq('has already been taken')
     end
   end
 end

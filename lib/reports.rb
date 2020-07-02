@@ -1,5 +1,6 @@
-class Reports
+# frozen_string_literal: true
 
+class Reports
   def initialize(name)
     @name = name
   end
@@ -7,7 +8,7 @@ class Reports
   def write_data_points(metrics_array)
     data = map_metrics_array_to_data(metrics_array)
     client.write_points(data)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Error while using Metrics: #{e}"
     Rails.logger.error e.backtrace
   end
@@ -35,5 +36,4 @@ class Reports
   def client
     @client ||= InfluxDB::Rails.client
   end
-
 end

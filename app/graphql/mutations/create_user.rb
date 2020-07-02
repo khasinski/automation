@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class CreateUser < BaseMutation
     # arguments passed to the `resolve` method
@@ -15,9 +17,8 @@ module Mutations
         @user = user
       end
       create_user.on(:create_user_failed) do |user|
-        raise GraphQL::ExecutionError, user.errors.full_messages.join(", ")
+        raise GraphQL::ExecutionError, user.errors.full_messages.join(', ')
       end
-
 
       create_user.call(
         name: name,

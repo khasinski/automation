@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 InfluxDB::Rails.configure do |config|
-  config.client.database = "automation"
+  config.client.database = 'automation'
 
   # config.retry = false
   # config.async = false
