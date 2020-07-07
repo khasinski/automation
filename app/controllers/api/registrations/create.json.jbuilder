@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if @user.errors.present?
   json.errors @user.errors.messages
   json.response do

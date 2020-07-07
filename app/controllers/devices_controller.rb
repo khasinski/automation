@@ -1,36 +1,36 @@
-class DevicesController < ApplicationController
+# frozen_string_literal: true
+
+class DevicesController < Api::BaseController
   skip_before_action :authenticate_user_from_token!
-  before_action :ensure_device, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_device, only: %i[show edit update destroy]
 
-  def show
+  def show; end
 
-  end
+  def new; end
 
-  def new
-  end
+  def edit; end
 
-  def edit
-  end
-
-  def create
-  end
+  def create; end
 
   def update
-    device.update_attributes(device_params)
+    device.update(device_params)
     redirect_to device_path(@device.id)
   end
 
-  def destroy
-  end
+  def destroy; end
 
   def device_settings
-    render json: {settings: device.permitted_settings}, status: 200
+    render json: { settings: device.permitted_settings }, status: :ok
   end
 
   private
 
   def device_params
-    params.require(:device).permit(:authentication_token, :name, :turn_on_time, :turn_off_time, :intensity, :on_temperature, :off_temperature, :on_volume, :off_volume, :group, :temperature_set, :status, :on)
+    params.require(:device).permit(
+      :authentication_token, :name, :turn_on_time, :turn_off_time,
+      :intensity, :on_temperature, :off_temperature, :on_volume,
+      :off_volume, :group, :temperature_set, :status, :on
+    )
   end
 
   def device
@@ -40,5 +40,4 @@ class DevicesController < ApplicationController
   def ensure_device
     redirect_to root_path unless device
   end
-
 end

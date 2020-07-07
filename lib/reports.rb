@@ -1,5 +1,7 @@
-class Reports
+# frozen_string_literal: true
 
+# Reports class is used to access Influx data collected from device reports
+class Reports
   def initialize(name)
     @name = name
   end
@@ -7,7 +9,7 @@ class Reports
   def write_data_points(metrics_array)
     data = map_metrics_array_to_data(metrics_array)
     client.write_points(data)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Error while using Metrics: #{e}"
     Rails.logger.error e.backtrace
   end
@@ -25,8 +27,8 @@ class Reports
     }.deep_symbolize_keys
   end
 
-  def map_metrics_array_to_data(ar)
-    ar.map do |metric|
+  def map_metrics_array_to_data(arr)
+    arr.map do |metric|
       key, val = metric.first
       data_point(key, val)
     end
@@ -35,5 +37,4 @@ class Reports
   def client
     @client ||= InfluxDB::Rails.client
   end
-
 end

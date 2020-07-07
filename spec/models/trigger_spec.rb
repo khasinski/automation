@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Trigger, type: :model do
   describe 'parsing conditions' do
-    context "when conditions are valid" do
+    context 'when conditions are valid' do
       let(:user) { create(:user) }
       let(:alert) { create(:alert, user: user) }
       let(:trigger) { create(:trigger, user: user, alerts: [alert]) }
 
-      it { should have_and_belong_to_many :alerts }
+      it { should have_many :alerts }
       it { should belong_to :user }
 
       it 'gets value' do
@@ -39,10 +41,10 @@ RSpec.describe Trigger, type: :model do
         allow_any_instance_of(Reports).to receive(:read_data_points) do
           [
             {
-              "name"=>"time_series_1",
-              "tags"=>{"region"=>"uk"},
-              "values"=>[
-                {"time"=>"2015-07-09T09:03:31Z", "count"=>32, "value"=>0.9673}
+              'name' => 'time_series_1',
+              'tags' => { 'region' => 'uk' },
+              'values' => [
+                { 'time' => '2015-07-09T09:03:31Z', 'count' => 32, 'value' => 0.9673 }
               ]
             }
           ]
@@ -56,9 +58,9 @@ RSpec.describe Trigger, type: :model do
         allow_any_instance_of(Reports).to receive(:read_data_points) do
           [
             {
-              "name"=>"time_series_1",
-              "tags"=>{"region"=>"uk"},
-              "values"=>[]
+              'name' => 'time_series_1',
+              'tags' => { 'region' => 'uk' },
+              'values' => []
             }
           ]
         end
@@ -76,9 +78,9 @@ RSpec.describe Trigger, type: :model do
         expect(value).to eq nil
       end
 
-      it "compare trigger value with measurement" do
+      it 'compare trigger value with measurement' do
         allow(trigger).to receive(:get_value) { 5 }
-        expected = trigger.is_triggered
+        expected = trigger.triggered?
         expect(expected).to be_truthy # 5 < 10
       end
     end

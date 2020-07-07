@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeDeviceValveColumnNames < ActiveRecord::Migration[5.1]
   def change
     rename_column :devices, :valve_on_time, :co2valve_on_time

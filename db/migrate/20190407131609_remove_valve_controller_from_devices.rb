@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveValveControllerFromDevices < ActiveRecord::Migration[5.1]
   def change
     remove_reference :devices, :valve_controller, index: true

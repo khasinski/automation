@@ -1,0 +1,11 @@
+require: rubocop-rails
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context', 'define']
+Metrics/MethodLength:
+  Max: 20
+  ExcludedMethods: ['change']
+Metrics/LineLength:
+  Exclude:
+    - 'config/initializers/devise.rb'
+Documentation:
+  Enabled: false

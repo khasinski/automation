@@ -1,8 +1,10 @@
-# config valid for current version and patch releases of Capistrano
-lock "~> 3.12.1"
+# frozen_string_literal: true
 
-set :application, "automation"
-set :repo_url, "https://github.com/kamilsluszniak/automation"
+# config valid for current version and patch releases of Capistrano
+lock '~> 3.12.1'
+
+set :application, 'automation'
+set :repo_url, 'https://github.com/kamilsluszniak/automation'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -22,16 +24,16 @@ set :deploy_to, '/home/deploy/automation'
 set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml"
-append :linked_files, "config/application.yml"
-append :linked_files, "config/secrets.yml"
-append :linked_files, "config/master.key"
+append :linked_files, 'config/database.yml'
+append :linked_files, 'config/application.yml'
+append :linked_files, 'config/secrets.yml'
+append :linked_files, 'config/master.key'
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads]
 append :linked_dirs, '.bundle'
 
-set :bundle_gemfile, -> { release_path.join('Gemfile') }      # default: nil
+set :bundle_gemfile, -> { release_path.join('Gemfile') } # default: nil
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 
 # Default value for default_env is {}
@@ -45,7 +47,7 @@ set :bundle_gemfile, -> { release_path.join('Gemfile') }      # default: nil
 
 set :nvm_type, :user # or :system, depends on your nvm setup
 set :nvm_node, 'v13.12.0'
-set :nvm_map_bins, %w{node npm which}
+set :nvm_map_bins, %w[node npm which]
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
@@ -59,7 +61,7 @@ set :nvm_map_bins, %w{node npm which}
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
-set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"    #accept array for multi-bind
+set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock" # accept array for multi-bind
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_access_log, "#{shared_path}/log/puma_error.log"
 set :puma_error_log, "#{shared_path}/log/puma_access.log"
