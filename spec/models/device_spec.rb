@@ -67,7 +67,7 @@ RSpec.describe Device, type: :model do
       end
 
       it 'returns intensity depending on current time' do
-        device = Device.new(type: 'AquariumController', user_id: user.id)
+        device = Device.new(type: 'AquariumController', user_id: user.id, light_intensity_lvl: 1)
         initial_intensity = { red: 0, green: 0, blue: 0, white: 0 }
         secondary_intensity = { red: 0, green: 20, blue: 0, white: 30 }
 
@@ -76,7 +76,6 @@ RSpec.describe Device, type: :model do
 
         device.add_intensity(current_time, initial_intensity)
         device.add_intensity(30.minutes.since(current_time), secondary_intensity)
-        # binding.pry
         expect(device.permitted_settings[:intensity]).to eq(initial_intensity)
 
         Timecop.freeze(30.minutes.since(current_time))
