@@ -14,7 +14,7 @@ class Device < ApplicationRecord
   serialize :intensity_override, Hash
   serialize :connected_devices, Hash
   belongs_to :user
-  has_many :charts
+  has_many :charts, dependent: :destroy
 
   def report_metrics(metrics_array)
     Reports.new(name).write_data_points(metrics_array)
@@ -29,24 +29,21 @@ class Device < ApplicationRecord
   def show_actual_intensity
     return intensity_override unless intensity_override.empty?
 
-    latest_intensity = intensity.values.last
-    current_time = Time.zone.now
-    scale_factor = light_intensity_lvl || 1
+    time_in_minutes = minutes_of_day(Time.zone.now)
+    latest_intensity = {}
 
-    intensity.each do |minutes, values|
-      if minutes.to_i <= (current_time.hour * 60 + current_time.min)
-        latest_intensity = values
-      else
-        break
-      end
+    intensity.sort.reverse.each do |element|
+      latest_intensity = element.last
+      break if element.first <= time_in_minutes
     end
-    latest_intensity.each { |k, v| latest_intensity[k] = (scale_factor * v).ceil.to_i }
+
+    scale_intensity_points(latest_intensity, normalized_intensity)
   end
 
   def add_intensity(time, intensity)
     minutes = time.min + time.hour * 60
     intensity = self.intensity.merge(minutes => intensity)
-    update_attribute(:intensity, intensity.sort.to_h)
+    update(intensity: intensity.sort.to_h)
   end
 
   def co2valve_on?
@@ -55,15 +52,33 @@ class Device < ApplicationRecord
   end
 
   def send_update_request(param, json_data)
-    if current_sign_in_ip
-      `curl -X POST -H 'content-type: application/json' -d '#{json_data}' #{current_sign_in_ip}/update_#{param}`
-    end
+    return unless current_sign_in_ip
+
+    `curl -X POST -H 'content-type: application/json' -d '#{json_data}' #{current_sign_in_ip}/update_#{param}`
   end
 
   def permitted_settings
-    settings = attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
+    settings = base_settings
     settings.merge!(intensity: show_actual_intensity) unless intensity_override.blank? && intensity.blank?
     settings.merge!(co2valve_on: co2valve_on?) if co2valve_on_time && co2valve_off_time
     settings
+  end
+
+  def base_settings
+    attributes.deep_symbolize_keys.except(*hidden_fields) if defined? hidden_fields
+  end
+
+  private
+
+  def normalized_intensity
+    light_intensity_lvl.to_i
+  end
+
+  def scale_intensity_points(intensity_hash, scale_factor)
+    intensity_hash.each { |k, v| intensity_hash[k] = (scale_factor * v).ceil.to_i }
+  end
+
+  def minutes_of_day(time)
+    time.hour * 60 + time.min
   end
 end

@@ -28,7 +28,7 @@ class ReportsController < Api::BaseController
   def index; end
 
   def show
-    data = device.get_metrics(get_params_report_name)
+    data = device.get_metrics(params_report_name)
     render json: data, status: :ok
   end
 
@@ -40,7 +40,7 @@ class ReportsController < Api::BaseController
     return render json: 'Unauthorized', status: :unauthorized unless authorized
   end
 
-  def get_params_report_name
+  def params_report_name
     params.dig(:device, :reports, :name)
   end
 
@@ -49,7 +49,11 @@ class ReportsController < Api::BaseController
   end
 
   def device_params
-    params.require(:device).permit(:authentication_token, :name, :turn_on_time, :turn_off_time, :intensity, :on_temperature, :off_temperature, :on_volume, :off_volume, :group, :temperature_set, :status, :on)
+    params.require(:device).permit(
+      :authentication_token, :name, :turn_on_time, :turn_off_time,
+      :intensity, :on_temperature, :off_temperature, :on_volume,
+      :off_volume, :group, :temperature_set, :status, :on
+    )
   end
 
   def device_reports

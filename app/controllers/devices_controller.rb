@@ -26,7 +26,11 @@ class DevicesController < Api::BaseController
   private
 
   def device_params
-    params.require(:device).permit(:authentication_token, :name, :turn_on_time, :turn_off_time, :intensity, :on_temperature, :off_temperature, :on_volume, :off_volume, :group, :temperature_set, :status, :on)
+    params.require(:device).permit(
+      :authentication_token, :name, :turn_on_time, :turn_off_time,
+      :intensity, :on_temperature, :off_temperature, :on_volume,
+      :off_volume, :group, :temperature_set, :status, :on
+    )
   end
 
   def device

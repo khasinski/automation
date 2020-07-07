@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Reports class is used to access Influx data collected from device reports
 class Reports
   def initialize(name)
     @name = name
@@ -26,8 +27,8 @@ class Reports
     }.deep_symbolize_keys
   end
 
-  def map_metrics_array_to_data(ar)
-    ar.map do |metric|
+  def map_metrics_array_to_data(arr)
+    arr.map do |metric|
       key, val = metric.first
       data_point(key, val)
     end

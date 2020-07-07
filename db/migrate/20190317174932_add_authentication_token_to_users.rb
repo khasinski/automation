@@ -2,8 +2,10 @@
 
 class AddAuthenticationTokenToUsers < ActiveRecord::Migration[5.1]
   def change
-    add_column :users, :authentication_token, :text
-    add_column :users, :authentication_token_created_at, :datetime
+    change_table :users, bulk: true do |t|
+      t.text :authentication_token
+      t.datetime :authentication_token_created_at
+    end
 
     add_index :users, :authentication_token, unique: true
   end

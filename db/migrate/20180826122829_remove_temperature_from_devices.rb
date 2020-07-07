@@ -2,6 +2,8 @@
 
 class RemoveTemperatureFromDevices < ActiveRecord::Migration[5.1]
   def change
-    remove_column :devices, :temperature
+    change_table :devices, bulk: false do |t|
+      t.decimal :temperature
+    end
   end
 end

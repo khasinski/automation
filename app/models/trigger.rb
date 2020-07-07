@@ -2,10 +2,11 @@
 
 class Trigger < ApplicationRecord
   belongs_to :user
-  has_and_belongs_to_many :alerts, through: :alerts_triggers
+  has_many :alerts_triggers, dependent: :destroy
+  has_many :alerts, through: :alerts_triggers
   serialize :conditions, Hash
 
-  def is_triggered
+  def triggered?
     get_value.send(operator, value)
   end
 

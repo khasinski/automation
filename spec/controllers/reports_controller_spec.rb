@@ -37,7 +37,15 @@ RSpec.describe ReportsController, type: :controller do
 
     it 'gets Device measurements on SHOW when user signed in' do
       login_with user
-      get :show, params: { device: { name: device.name, authentication_token: device.authentication_token, reports: { name: 'test' } } }
+      get :show, params: {
+        device: {
+          name: device.name,
+          authentication_token: device.authentication_token,
+          reports: {
+            name: 'test'
+          }
+        }
+      }
       expect(response).to have_http_status(200)
       resp = JSON.parse(response.body)
       expect(resp).to be_instance_of(Array)

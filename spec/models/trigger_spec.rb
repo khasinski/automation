@@ -9,7 +9,7 @@ RSpec.describe Trigger, type: :model do
       let(:alert) { create(:alert, user: user) }
       let(:trigger) { create(:trigger, user: user, alerts: [alert]) }
 
-      it { should have_and_belong_to_many :alerts }
+      it { should have_many :alerts }
       it { should belong_to :user }
 
       it 'gets value' do
@@ -80,7 +80,7 @@ RSpec.describe Trigger, type: :model do
 
       it 'compare trigger value with measurement' do
         allow(trigger).to receive(:get_value) { 5 }
-        expected = trigger.is_triggered
+        expected = trigger.triggered?
         expect(expected).to be_truthy # 5 < 10
       end
     end

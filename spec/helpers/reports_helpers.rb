@@ -6,7 +6,7 @@ def test_metric_count
   reports = @client.query 'select test from cool_device'
   report = reports.first
   if report
-    count = report['values'].count
+    report['values'].count
   else
     0
   end

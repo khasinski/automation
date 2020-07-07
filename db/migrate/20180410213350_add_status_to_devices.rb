@@ -2,7 +2,9 @@
 
 class AddStatusToDevices < ActiveRecord::Migration[5.1]
   def change
-    add_column :devices, :status, :string
-    add_column :devices, :on, :boolean
+    change_table :devices, bulk: true do |t|
+      t.string :status
+      t.boolean :on
+    end
   end
 end

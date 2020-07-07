@@ -2,6 +2,6 @@
 
 class UserNotifier
   def create_user_success(user)
-    p user
+    Rails.logger.info "User #{user} created"
   end
 end

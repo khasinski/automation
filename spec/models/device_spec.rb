@@ -45,8 +45,8 @@ RSpec.describe Device, type: :model do
         settings = device.permitted_settings
         hidden_fields = %i[id name encrypted_password reset_password_token reset_password_sent_at remember_created_at
                            sign_in_count current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip
-                           authentication_token authentication_token_created_at created_at updated_at type slug on_volume
-                           off_volume volume]
+                           authentication_token authentication_token_created_at created_at updated_at type slug
+                           on_volume off_volume volume]
 
         hidden_fields.each do |f|
           expect(settings).to_not include(f)
@@ -58,8 +58,8 @@ RSpec.describe Device, type: :model do
         settings = device.permitted_settings
         hidden_fields = %i[id name encrypted_password reset_password_token reset_password_sent_at remember_created_at
                            sign_in_count current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip
-                           authentication_token authentication_token_created_at created_at updated_at type slug on_volume
-                           off_volume volume on_temperature off_temperature temperature_set]
+                           authentication_token authentication_token_created_at created_at updated_at type slug
+                           on_volume off_volume volume on_temperature off_temperature temperature_set]
 
         hidden_fields.each do |f|
           expect(settings).to_not include(f)
@@ -76,10 +76,11 @@ RSpec.describe Device, type: :model do
 
         device.add_intensity(current_time, initial_intensity)
         device.add_intensity(30.minutes.since(current_time), secondary_intensity)
-
+        # binding.pry
         expect(device.permitted_settings[:intensity]).to eq(initial_intensity)
 
         Timecop.freeze(30.minutes.since(current_time))
+
         expect(device.permitted_settings[:intensity]).to eq(secondary_intensity)
       end
 
@@ -89,7 +90,7 @@ RSpec.describe Device, type: :model do
         intensity_override = { red: 0, green: 20, blue: 0, white: 30 }
 
         device.add_intensity(Time.zone.now, intensity)
-        device.update_attribute(:intensity_override, intensity_override)
+        device.update(intensity_override: intensity_override)
 
         expect(device.permitted_settings[:intensity]).to eq(intensity_override)
       end

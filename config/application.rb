@@ -18,7 +18,7 @@ module Automation
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W[#{config.root}/app/models/devices]
     config.autoload_paths += %W[#{config.root}/lib]
-    require "#{Rails.root}/lib/jsonwebtoken"
-    Dir["#{Rails.root}/lib/notifiers/*.rb"].sort.each { |file| require file }
+    require Rails.root.join('lib/jsonwebtoken')
+    Dir[Rails.root.join('lib/notifiers/*.rb')].sort.each { |file| require file }
   end
 end

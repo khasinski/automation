@@ -9,8 +9,7 @@ class SignInDevice
     device = Device.find_by(name: name)
     if device&.valid_password?(password)
       access_token = BCrypt::Password.create(password)
-      current_ip = remote_ip
-      device.update_columns(authentication_token: access_token, last_sign_in_ip: current_ip, current_sign_in_ip: current_ip)
+      device.update(authentication_token: access_token, last_sign_in_ip: remote_ip, current_sign_in_ip: remote_ip)
       broadcast(:sign_in_device_success, device)
     else
       broadcast(:sign_in_device_failed)

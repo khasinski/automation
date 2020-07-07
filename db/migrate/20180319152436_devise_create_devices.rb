@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/AbcSize
 class DeviseCreateDevices < ActiveRecord::Migration[5.1]
   def change
     create_table :devices do |t|
@@ -44,3 +45,4 @@ class DeviseCreateDevices < ActiveRecord::Migration[5.1]
     # add_index :devices, :unlock_token,         unique: true
   end
 end
+# rubocop:enable Metrics/AbcSize
