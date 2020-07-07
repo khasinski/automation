@@ -10,6 +10,7 @@ FactoryBot.define do
     intensity { { 658 => { red: 10, green: 40, blue: 0, white: 10 } } }
     on { true }
     type { 'Light' }
+    light_intensity_lvl { 1 }
   end
 
   factory :aquarium_controller do
@@ -22,6 +23,7 @@ FactoryBot.define do
     on { true }
     distance { 200 }
     type { 'AquariumController' }
+    light_intensity_lvl { 1 }
     connected_devices { { 'water_input_valve' => '192.168.2.108' } }
   end
 

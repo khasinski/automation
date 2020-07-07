@@ -37,7 +37,7 @@ class Device < ApplicationRecord
       break if element.first <= time_in_minutes
     end
 
-    scale_intensity_points(latest_intensity, normalized_intensity)
+    scale_intensity_points(latest_intensity, intensity_scale_factor)
   end
 
   def add_intensity(time, intensity)
@@ -70,7 +70,7 @@ class Device < ApplicationRecord
 
   private
 
-  def normalized_intensity
+  def intensity_scale_factor
     light_intensity_lvl.to_i
   end
 
